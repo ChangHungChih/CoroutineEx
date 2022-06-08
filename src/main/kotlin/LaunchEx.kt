@@ -1,5 +1,6 @@
 import kotlinx.coroutines.*
 
+//  Coroutine Builder ： launch() 、 async()
 fun main() = runBlocking {
 //    launchEx()
 //    coroutineScopeEx()
@@ -25,10 +26,13 @@ fun launchEx() = runBlocking {
 }
 
 fun coroutineScopeEx() = runBlocking {
-    coroutineScope { //Coroutine context = same with outside scope
+    coroutineScope {
         launchSuspend()
     }
     println("Done")
+    // coroutineScope { } won't build new coroutine, just inherit outside scope
+    // Coroutine context = same with outside scope
+    // print and launchSuspend are in same coroutine
 }
 
 // https://i.imgur.com/1vOFhPL.png
@@ -80,8 +84,7 @@ fun onlyAsyncEx() = runBlocking {
     println("Done")
 }
 
-// launch() 、 async() ，我們知道當程式執行到這邊的時候，就會將這兩個 builder 所建造出來的 coroutine 排進執行的行程中。所以它們預設是立刻就被呼叫的。
-//加上 CoroutineStart.LAZY 之後， launch() 裏面的任務就不會立刻執行了。不過，如果沒有啟動 launch() 那麼程式就會在這邊一直等它執行。
+// launch() async() will execute immediately, unless use CoroutineStart.LAZY
 fun lazyStarterEx() = runBlocking {
     val job = launch(start = CoroutineStart.LAZY) {
         launchSuspend()
