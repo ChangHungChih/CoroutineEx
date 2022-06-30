@@ -77,12 +77,14 @@ fun testFlowOn() {
                 println("filter: ${Thread.currentThread().name}")
                 it < 10
             }
+            .onEach {
+                println("onEach: ${Thread.currentThread().name}")
+            }
             .flowOn(Dispatchers.IO)
             .collect {
                 println("collect: ${Thread.currentThread().name}")
             }
     }
-
 }
 
 // Hot Flow
